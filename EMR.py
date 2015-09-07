@@ -18,8 +18,8 @@ class Tarjeta():
 
 	def PagarBoleto(self, bondi, hora):
 		monto=0
-		if(bondi.Linea()!= (_viajesRealizados[_indexViajes].Colectivo()).Linea ):
-			if(hora.Diferencia( _viajesRealizados[_indexViajes].Horario() ) <= 60 ):
+		if(bondi.Linea() != (self._viajesRealizados[self._indexViajes].Colectivo()).Linea() ):
+			if(hora.Diferencia( self._viajesRealizados[self._indexViajes].Horario() ) <= 60 ):
 				if(hora.Diferencia( self._ultimoTransbordo ) >= 60):
 					monto=self._transbordo
 
@@ -27,7 +27,7 @@ class Tarjeta():
 			monto=self._viajeNormal
 
 		if(self._plata<monto):
-			return false
+			return False
 
 		else:
 			self._plata-=monto
@@ -36,6 +36,7 @@ class Tarjeta():
 				self._ultimoTransbordo=hora
 			self._indexViajes=(self._indexViajes+1)%10
 			self._viajesRealizados[self._indexViajes]=viajeActual
+			return True
 
 		
 
@@ -61,8 +62,9 @@ class TarjetaComun(Tarjeta):
 		self._transbordo=1.90
 		self._plata=0
 		self._viajesRealizados=[None]*10
-		self._ultimoTransbordo
+		self._ultimoTransbordo=Time(0,0,0,0)
 		self._indexViajes=0
+		self._viajesRealizados[0]=Viaje(Colectivo("Nada","nada",-1),Time(0,0,0,0),0)
 
 class TarjetaMedioBoleto(Tarjeta):
 	def __init__(self):
@@ -70,8 +72,9 @@ class TarjetaMedioBoleto(Tarjeta):
 		self._transbordo=0.96
 		self._plata=0
 		self._viajesRealizados=[None]*10
-		self._ultimoTransbordo
+		self._ultimoTransbordo=Time(0,0,0,0)
 		self._indexViajes=0
+		self._viajesRealizados[0]=Viaje(Colectivo("Nada","nada",-1),Time(0,0,0,0),0)
 
 class Colectivo():
 	def __init__(self,empresa,linea,interno):

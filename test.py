@@ -7,4 +7,6 @@ trolo=Colectivo("Semtur","192",2342)
 ahora=Time(2015,9,7,420)
 desp=Time(2015,9,7,540)
 visa.Recarga(196)
-assert	visa.Saldo()==230
+
+def test_Saldo():
+	assert	visa.Saldo()==230

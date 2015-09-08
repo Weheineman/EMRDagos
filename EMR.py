@@ -17,30 +17,12 @@ class Tarjeta():
 		raise NotImplementedError("Tarjeta es una clase abstracta....") 
 
 	def PagarBoleto(self, bondi, hora):
-		monto=0
-		if(bondi.Linea() != (self._viajesRealizados[self._indexViajes].Colectivo()).Linea() ):
-			if(hora.Diferencia( self._viajesRealizados[self._indexViajes].Horario() ) <= 60 ):
-				if(hora.Diferencia( self._ultimoTransbordo ) >= 60):
-					monto=self._transbordo
-
-		if(monto==0):
-			monto=self._viajeNormal
-
-		if(self._plata<monto):
-			return False
-
-		else:
-			self._plata-=monto
-			viajeActual=Viaje(bondi,hora,monto)
-			if(monto==self._transbordo):
-				self._ultimoTransbordo=hora
-			self._indexViajes=(self._indexViajes+1)%10
-			self._viajesRealizados[self._indexViajes]=viajeActual
-			return True
-
-		
+		return
 
 	def Recarga(self, monto):
+		if(monto<0):
+			return
+
 		if(monto==196):
 			self._plata+=230
 
@@ -58,23 +40,76 @@ class Tarjeta():
 
 class TarjetaComun(Tarjeta):
 	def __init__(self):
-		self._viajeNormal=5.75
-		self._transbordo=1.90
 		self._plata=0
 		self._viajesRealizados=[None]*10
 		self._ultimoTransbordo=Time(0,0,0,0)
 		self._indexViajes=0
 		self._viajesRealizados[0]=Viaje(Colectivo("Nada","nada",-1),Time(0,0,0,0),0)
 
-class TarjetaMedioBoleto(Tarjeta):
-	def __init__(self):
-		self._viajeNormal=2.90
-		self._transbordo=0.96
-		self._plata=0
-		self._viajesRealizados=[None]*10
-		self._ultimoTransbordo=Time(0,0,0,0)
-		self._indexViajes=0
-		self._viajesRealizados[0]=Viaje(Colectivo("Nada","nada",-1),Time(0,0,0,0),0)
+	def VNormal(self):
+		return 5.75
+
+	def VTrans(self):
+		return 2.90
+
+	def PagarBoleto(self,bondi,hora):
+		monto=0
+		if(bondi.Linea() != (self._viajesRealizados[self._indexViajes].Colectivo()).Linea() ):
+			if(hora.Diferencia( self._viajesRealizados[self._indexViajes].Horario() ) <= 60 ):
+				if(hora.Diferencia( self._ultimoTransbordo ) >= 60):
+					monto=self.VTrans()
+
+		if(monto==0):
+			monto=self.VNormal()
+
+		if(self._plata<monto):
+			return False
+
+		else:
+			self._plata-=monto
+			viajeActual=Viaje(bondi,hora,monto)
+			if(monto==self.VTrans()):
+				self._ultimoTransbordo=hora
+			self._indexViajes=(self._indexViajes+1)%10
+			self._viajesRealizados[self._indexViajes]=viajeActual
+			return True
+
+
+
+class TarjetaMedioBoleto(TarjetaComun):
+
+	def VNormal(self):
+		return super().VNormal()/2
+
+	def VTrans(self):
+		return super().VTrans()/2
+
+	def PagarBoleto(self,bondi,hora):
+		if(hora._time<360):
+			monto=0
+			if(bondi.Linea() != (self._viajesRealizados[self._indexViajes].Colectivo()).Linea() ):
+				if(hora.Diferencia( self._viajesRealizados[self._indexViajes].Horario() ) <= 60 ):
+					if(hora.Diferencia( self._ultimoTransbordo ) >= 60):
+						monto=super().VTrans()
+	
+			if(monto==0):
+				monto=super().VNormal()
+	
+			if(self._plata<monto):
+				return False
+	
+			else:
+				self._plata-=monto
+				viajeActual=Viaje(bondi,hora,monto)
+				if(monto==super().VTrans()):
+					self._ultimoTransbordo=hora
+				self._indexViajes=(self._indexViajes+1)%10
+				self._viajesRealizados[self._indexViajes]=viajeActual
+				return True
+		
+		else:
+			return super().PagarBoleto(bondi,hora)
+
 
 class Colectivo():
 	def __init__(self,empresa,linea,interno):

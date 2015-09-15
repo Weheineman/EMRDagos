@@ -29,6 +29,7 @@ def test_PagarBoleto(card,c1,c2,t1,t2,t3,t4,t5):
 	assert card.Saldo()==(100-card.VNormal()-card.VNormal()-card.VTrans()-card.VNormal()-card.VNormal())
 
 def test_MedioBoleto(card,c1,c2,t1,t2,t3,t4,t5):
+	comun=TarjetaComun()
 	card._plata=0
 	assert card.PagarBoleto(c1,t1)==False
 	card._plata=100

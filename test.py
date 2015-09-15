@@ -117,12 +117,12 @@ def test_ViajesRealizados():
 	assert lista[card._indexViajes].Monto()==t1
 
 
-test_Saldo(comun)
-test_Saldo(medio)
-test_Recarga(comun)
-test_Recarga(medio)
-test_PagarBoleto(comun,c1,c2,t1,t2,t3,t4,t5)
-test_PagarBoleto(medio,c1,c2,t1,t2,t3,t4,t5)
-test_MedioBoleto(medio,c1,c2,t1,t2,t3,t4,t5)
+test_Saldo()
+test_Saldo()
+test_Recarga()
+test_Recarga()
+test_PagarBoleto()
+test_PagarBoleto()
+test_MedioBoleto()
 #test_ViajesRealizados(com,c1,c2,t1,t2,t3,t4,t5)
 #test_ViajesRealizados(med,c1,c2,t1,t2,t3,t4,t5)

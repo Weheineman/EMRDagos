@@ -34,11 +34,11 @@ def test_MedioBoleto(card,c1,c2,t1,t2,t3,t4,t5):
 	assert card.PagarBoleto(c1,t1)==False
 	card._plata=100
 	assert card.PagarBoleto(c1,t4)==True
-	assert card.Saldo()==100-comun.VNormal()
+	assert card.Saldo()==100 - comun.VNormal()
 	assert card.PagarBoleto(c2,t4)==True
-	assert card.Saldo()==100-comun.VNormal()-comun.VTrans()
+	assert card.Saldo()==100 - comun.VNormal()-comun.VTrans()
 	assert card.PagarBoleto(c1,t5)==True
-	assert card.Saldo()==100-comun.VNormal()-comun.VTrans()-comun.VNormal()
+	assert card.Saldo()==100 - comun.VNormal()-comun.VTrans()-comun.VNormal()
 
 def test_ViajesRealizados(card,c1,c2,t1,t2,t3,t4,t5):
 	card.Recarga(100)

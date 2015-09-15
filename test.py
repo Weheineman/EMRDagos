@@ -109,20 +109,33 @@ def test_ViajesRealizados():
 	t3=Time(2015,9,7,541)
 	t4=Time(2015,9,8,200)
 	t5=Time(2015,9,8,220)
-	#card.Recarga(100)
-	#card.PagarBoleto(c1,t1)
-	#lista=card.ViajesRealizados()
-	#assert lista[card._indexViajes].Horario()==t1
-	#assert lista[card._indexViajes].Colectivo()==t1
-	#assert lista[card._indexViajes].Monto()==t1
+	comun.Recarga(100)
+	comun.PagarBoleto(c1,t1)
+	lista=comun.ViajesRealizados()
+	assert lista[comun._indexViajes].Horario()==t1
+	assert lista[comun._indexViajes].Colectivo()==c1
+	assert lista[comun._indexViajes].Monto()==comun.VNormal()
+	comun.PagarBoleto(c2,t2)
+	lista=comun.ViajesRealizados()
+	assert lista[comun._indexViajes].Horario()==t2
+	assert lista[comun._indexViajes].Colectivo()==c2
+	assert lista[comun._indexViajes].Monto()==comun.VTrans()
+	
+	medio.Recarga(100)
+	medio.PagarBoleto(c1,t1)
+	lista=medio.ViajesRealizados()
+	assert lista[medio._indexViajes].Horario()==t1
+	assert lista[medio._indexViajes].Colectivo()==c1
+	assert lista[medio._indexViajes].Monto()==medio.VNormal()
+	medio.PagarBoleto(c2,t2)
+	lista=medio.ViajesRealizados()
+	assert lista[medio._indexViajes].Horario()==t2
+	assert lista[medio._indexViajes].Colectivo()==c2
+	assert lista[medio._indexViajes].Monto()==medio.VTrans()
 
 
 test_Saldo()
-test_Saldo()
 test_Recarga()
-test_Recarga()
-test_PagarBoleto()
 test_PagarBoleto()
 test_MedioBoleto()
-#test_ViajesRealizados()
-#test_ViajesRealizados()
+test_ViajesRealizados()
